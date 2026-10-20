@@ -20,6 +20,18 @@
         ],
         "createdAt": "2026-10-20T15:43:16.581Z",
         "reason": "Claude: detector reads only fixed px UI sizes; headings use clamp() at 30-80px (H1 42-80, H2 30-48), so the real scale is >2:1"
+      },
+      {
+        "rule": "design-system-radius",
+        "value": "6px",
+        "createdAt": "2026-10-20T15:48:39.816Z",
+        "reason": "Claude: 6px is the focus-ring corner on :focus-visible, a browser-surface detail, not a component shape"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "#1877f2",
+        "createdAt": "2026-10-20T15:48:39.877Z",
+        "reason": "Claude: Facebook's own brand blue on its logo icon in the Facebook row"
       }
     ]
   }
