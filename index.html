@@ -16,10 +16,10 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap">
+<link rel="preload" href="cal-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+/* Cal Sans (SIL OFL), self-hosted latin subset */
+@font-face{font-family:"Cal Sans";font-style:normal;font-weight:400;font-display:swap;src:url(cal-sans-latin.woff2) format("woff2")}
 /* ---------- Tokens ---------- */
 :root{
   /* off-white paper, the navy and gold from William's own profile flyer */
@@ -51,7 +51,8 @@ html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;background:var(--paper
 body{margin:0;font:16px/1.7 var(--text);color:var(--body);background:var(--paper)}
 ::selection{background:var(--gold);color:var(--ink)}
 img,svg{display:block}
-a{color:inherit}
+a{color:inherit;text-underline-offset:3px}
+html{accent-color:var(--navy)}
 :focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:6px}
 .on-navy :focus-visible,.on-deep :focus-visible,.hero :focus-visible,footer :focus-visible{outline-color:var(--gold)}
 .wrap{width:100%;max-width:1160px;margin:0 auto;padding:0 var(--gutter)}
@@ -93,7 +94,7 @@ section{padding:64px 0}
 .brand span span{font:600 11px/1 var(--text);letter-spacing:.12em;white-space:nowrap;text-transform:uppercase;color:var(--soft);margin-top:5px}
 .tel{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 2px;font:400 17px/1 var(--display);text-decoration:none;white-space:nowrap}
 .tel svg{width:18px;height:18px;flex:none;color:var(--gold-ink)}
-@media (max-width:374px){.brand svg{display:none}}
+@media (max-width:374px){.brand svg{width:30px;height:30px}.brand{gap:8px}.brand b{font-size:19px}.tel{font-size:16px;gap:6px}}
 
 /* ---------- Hero (plain textured navy: no real job photos yet) ---------- */
 .hero{padding:0;position:relative;background-color:var(--navy);background-image:var(--texture);color:var(--on-dark);overflow:hidden}
@@ -103,6 +104,7 @@ section{padding:64px 0}
 .hero h1 .w{display:inline-block;white-space:nowrap}
 .hero h1 .c{display:inline-block;opacity:0;transform:translateX(50px);animation:letter-in 1s cubic-bezier(.34,1.56,.64,1) forwards;animation-delay:calc(var(--i) * 20ms)}
 @keyframes letter-in{to{opacity:1;transform:none}}
+.hero h1.wait .c{animation-play-state:paused}
 .promise{font-size:clamp(17px,4.7vw,20px);line-height:1.5;color:var(--on-dark-soft);max-width:32ch}
 .promise b{color:var(--on-dark);font-weight:600}
 .actions{display:grid;gap:12px;width:100%;margin-top:4px}
@@ -125,7 +127,7 @@ section{padding:64px 0}
 .arrow{width:44px;height:44px;flex:none;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.1);color:var(--on-dark);transition:background-color .2s,color .2s}
 .arrow svg{width:18px;height:18px}
 .row:focus-visible .arrow{background:var(--gold);color:var(--ink);outline:3px solid var(--gold);outline-offset:3px}
-.fb{margin-top:24px;display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:76px;padding:14px 16px 14px 22px;border-radius:20px;background:var(--card);color:var(--ink);text-decoration:none;font:400 clamp(19px,5.2vw,22px)/1.2 var(--display);max-width:480px;box-shadow:0 1px 0 var(--line)}
+.fb{margin-top:24px;display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:76px;padding:14px 16px 14px 22px;border-radius:20px;background:var(--card);color:var(--ink);text-decoration:none;font:400 clamp(19px,5.2vw,22px)/1.2 var(--display);max-width:480px}
 .fb:hover,.fb:focus-visible{outline:none;background:var(--card)}
 .fb .lbl{display:flex;align-items:center;gap:14px}
 .fb .lbl svg{width:30px;height:30px;flex:none;color:#1877f2}
@@ -141,7 +143,7 @@ section{padding:64px 0}
 
 /* ---------- Form ---------- */
 .ask .wrap{display:grid;gap:28px}
-form{background:var(--card);border-radius:var(--r-card);padding:clamp(20px,5vw,32px);display:grid;gap:20px;max-width:600px}
+form{scroll-margin-top:24px;background:var(--card);border-radius:var(--r-card);padding:clamp(20px,5vw,32px);display:grid;gap:20px;max-width:600px}
 .field{display:grid;gap:8px;min-width:0}
 .field label,.field legend{font:400 17px/1.2 var(--display);color:var(--ink);padding:0}
 .field small{font:400 14px/1 var(--text);color:var(--soft);margin-left:4px}
@@ -155,14 +157,17 @@ input[type=text]:focus,textarea:focus{outline:none;border-color:var(--focus)}
 .chips label{display:inline-flex;align-items:center;min-height:48px;padding:0 18px;border-radius:var(--pill);background:var(--field);border:2px solid transparent;font:16px/1 var(--text);color:var(--ink);cursor:pointer;margin:0;transition:border-color .15s,background-color .15s,color .15s}
 .chips input:focus-visible+label{outline:3px solid var(--focus);outline-offset:2px}
 .chips input:checked+label{background:var(--ink);color:#fff}
-.err{display:none;font-size:15px;color:var(--error)}
+.err{display:none;font-size:16px;color:var(--error)}
 .field.bad .err{display:block}
 .field.bad input[type=text],.field.bad textarea,.field.bad input[type=text]:focus,.field.bad textarea:focus{border-color:var(--error)}
 form .btn-primary{width:100%}
 form .btn-primary:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
-.after{font-size:15px;color:var(--soft)}
-.sent{color:var(--ink);font-weight:600}
-.sent a{white-space:nowrap;display:inline-block;padding:11px 0;margin:-11px 0}
+.after{font-size:16px;color:var(--soft)}
+.sent{color:var(--ink);font-weight:600;display:grid;gap:12px}
+.sent .btn{width:100%;min-height:52px;font-size:17px}
+.btn-line{background:transparent;color:var(--ink);border-color:var(--ink)}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sent p a{white-space:nowrap;display:inline-block;padding:11px 0;margin:-11px 0}
 @media (max-width:380px){.chips label{padding:0 14px}}
 
 /* ---------- Close ---------- */
@@ -172,7 +177,7 @@ form .btn-primary:focus-visible{outline:2px solid var(--focus);outline-offset:2p
 .area{margin-top:22px;max-width:40ch}
 
 /* ---------- Footer ---------- */
-footer{background-color:var(--deep);background-image:var(--texture);color:var(--on-dark-soft);padding:48px 0 calc(96px + env(safe-area-inset-bottom));font-size:16px}
+footer{border-top:1px solid rgba(255,255,255,.08);background-color:var(--deep);background-image:var(--texture);color:var(--on-dark-soft);padding:48px 0 calc(96px + env(safe-area-inset-bottom));font-size:16px}
 footer .wrap{display:grid;gap:14px}
 .nw{white-space:nowrap}
 footer nav{display:flex;flex-wrap:wrap;gap:6px 22px}
@@ -219,7 +224,7 @@ footer a{display:inline-flex;align-items:center;min-height:44px;color:var(--on-d
 input[type=text]:hover,textarea:hover{border-color:var(--focus)}
 .chips label:hover{border-color:var(--focus)}
 form .btn-primary:hover{outline:2px solid var(--focus);outline-offset:2px}
-.sent a:hover{color:var(--navy)}
+.btn-line:hover{outline:2px solid var(--focus);outline-offset:2px}
 .bigtel:hover{color:var(--gold)}
 footer a:hover{color:var(--gold)}
 }
@@ -235,7 +240,7 @@ footer a:hover{color:var(--gold)}
 <!--
 THESIS: A one-man masonry business that earns trust through calm order (after lpmr.co.uk): one claim (brick, block and stone, built right), the real man who builds it, the full list of what he builds, and a free estimate one text away.
 OWN-WORLD: Off-white paper, William's own flyer navy (#16295a hero/services, #0a1633 deep bands with faint diagonal lines) and flyer gold (#e3bf66) as the one warm accent (fills only; #7a5a12 when it has to be text on light). Cal Sans display, system body at 16/1.7. Mark: his crossed hammers over a course of bricks.
-STORY: The visitor sees what William builds, meets the man himself, believes he takes care with work they'll live with for years, and asks for a free estimate.
+STORY: The visitor meets the man himself right under the hero, sees what he builds, believes he takes care with work they'll live with for years, and asks for a free estimate.
 FIRST VIEWPORT: Paper header with hammer mark and wordmark left, tap-to-call number top right. Navy hero: "Free estimates" eyebrow, "Brick, block and stone, built right.", one promise line naming William, two pill buttons (Get a free estimate, See what I build).
 FORM: calm band system without a hero photo: the flyer's job pictures are illustrations, not William's work, so none are used; his own profile portrait is the only photo.
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, DESIGN.md, and every shipping raster carrying its provenance
@@ -256,7 +261,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 <main id="top">
 <section class="hero" id="hero" aria-labelledby="h1">
   <div class="wrap hero-copy">
-    <p class="eyebrow">Free estimates</p>
+    <p class="eyebrow">Masonry and concrete</p>
     <h1 id="h1">Brick, block and stone, <span class="accent">built right.</span></h1>
     <p class="promise">I'm <b>William Martinez.</b> New builds and repairs, done like it's my own home.</p>
     <div class="actions">
@@ -274,12 +279,12 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
     </div>
     <div class="rise">
       <h2 id="h-meet">You'll live with this work for years.</h2>
-      <p class="lede" style="margin-top:16px">A driveway, a set of steps, a wall around your yard: you see it every day. I build each one the way I'd want it on my own house.</p>
+      <p class="lede" style="margin-top:16px">A driveway, a set of steps, a wall around your yard: you see it every day. I build each one straight, level and solid, because you'll be looking at it long after I've packed up.</p>
     </div>
     <ul class="claims">
-      <li class="rise"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="8" width="28" height="26" rx="4"/><path d="M13 17h14M13 23h14M13 29h8"/><path d="M15 4v7M25 4v7"/></svg>Free estimates</li>
+      <li class="rise"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="7" width="24" height="29" rx="3"/><path d="M15 4h10v6H15z"/><path d="M14 23l4.5 4.5L27 18"/></svg>Free estimates</li>
       <li class="rise"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19L20 6l15 13"/><path d="M9 16v18h22V16"/><path d="M17 34v-9h6v9"/></svg>New construction</li>
-      <li class="rise"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 28h30M5 34h30M5 22h14"/><path d="M12 22v6M24 28v6M18 28v6"/><path d="M25 7l9 9-7 2-4-4z"/><path d="M27 18l-5 5"/></svg>Repairs, big or small</li>
+      <li class="rise"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 22L7 33h26z"/><path d="M20 22v-8"/><rect x="16.5" y="4" width="7" height="10" rx="3"/></svg>Repairs, big or small</li>
     </ul>
   </div>
 </section>
@@ -291,21 +296,21 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
       <h2 id="h-work">What I <span class="accent">build.</span></h2>
     </div>
     <ul class="rows">
-      <li class="rise"><a class="row" href="#ask" data-job="Driveway or slab">Concrete driveways &amp; slabs<span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
-      <li class="rise"><a class="row" href="#ask" data-job="Walls">Block walls<span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
-      <li class="rise"><a class="row" href="#ask" data-job="Walls">Walls &amp; fences<span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
-      <li class="rise"><a class="row" href="#ask" data-job="Walls">Retaining walls<span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
-      <li class="rise"><a class="row" href="#ask" data-job="Steps or patio">Stone steps<span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
-      <li class="rise"><a class="row" href="#ask" data-job="Steps or patio">Brick &amp; stone patios<span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
-      <li class="rise"><a class="row" href="#ask" data-job="Fireplace or chimney">Fireplaces &amp; chimneys<span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
-      <li class="rise"><a class="row" href="#ask" data-job="Stone veneer">Stone veneer<span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
-      <li class="rise"><a class="row" href="#ask" data-job="Mailbox">Brick &amp; stone mailboxes<span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
-      <li class="rise"><a class="row" href="#ask" data-job="Foundation or house">Foundations<span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
-      <li class="rise"><a class="row" href="#ask" data-job="Foundation or house">House construction<span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
-      <li class="rise"><a class="row" href="#ask" data-job="Repair">Masonry repairs<span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+      <li class="rise"><a class="row" href="#quoteForm" data-job="Driveway or slab">Concrete driveways &amp; slabs<span class="vh"> – free estimate</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+      <li class="rise"><a class="row" href="#quoteForm" data-job="Walls">Block walls<span class="vh"> – free estimate</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+      <li class="rise"><a class="row" href="#quoteForm" data-job="Walls">Walls &amp; fences<span class="vh"> – free estimate</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+      <li class="rise"><a class="row" href="#quoteForm" data-job="Walls">Retaining walls<span class="vh"> – free estimate</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+      <li class="rise"><a class="row" href="#quoteForm" data-job="Steps or patio">Stone steps<span class="vh"> – free estimate</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+      <li class="rise"><a class="row" href="#quoteForm" data-job="Steps or patio">Brick &amp; stone patios<span class="vh"> – free estimate</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+      <li class="rise"><a class="row" href="#quoteForm" data-job="Fireplace or chimney">Fireplaces &amp; chimneys<span class="vh"> – free estimate</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+      <li class="rise"><a class="row" href="#quoteForm" data-job="Stone veneer">Stone veneer<span class="vh"> – free estimate</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+      <li class="rise"><a class="row" href="#quoteForm" data-job="Mailbox">Brick &amp; stone mailboxes<span class="vh"> – free estimate</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+      <li class="rise"><a class="row" href="#quoteForm" data-job="Foundation or house">Foundations<span class="vh"> – free estimate</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+      <li class="rise"><a class="row" href="#quoteForm" data-job="Foundation or house">House construction<span class="vh"> – free estimate</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
+      <li class="rise"><a class="row" href="#quoteForm" data-job="Repair">Masonry repairs<span class="vh"> – free estimate</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span></a></li>
     </ul>
     <a class="fb rise" href="https://www.facebook.com/profile.php?id=100095738580830" rel="noopener">
-      <span class="lbl"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4h-3V12h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v2.9h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.5h-2.9v8.4A12 12 0 0 0 24 12z"/></svg>See my work on Facebook.</span>
+      <span class="lbl"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4h-3V12h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v2.9h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.5h-2.9v8.4A12 12 0 0 0 24 12z"/></svg>Find me on Facebook</span>
       <span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg></span>
     </a>
   </div>
@@ -315,12 +320,12 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
   <div class="wrap">
     <div class="head rise">
       <p class="eyebrow">No cost to ask</p>
-      <h2 id="h-ask">Get a free estimate</h2>
+      <h2 id="h-ask">Get a free estimate.</h2>
       <p class="lede">Not sure it's something I do? Ask anyway.</p>
       <ol class="steps">
         <li><div><b>Tell me about the job.</b><span>A new patio or a few loose bricks.</span></div></li>
-        <li><div><b>Get a free estimate.</b><span>You know the price before any work starts.</span></div></li>
-        <li><div><b>I build it right.</b><span>Work you'll be glad to see for years.</span></div></li>
+        <li><div><b>Get your price.</b><span>Free, and before any work starts.</span></div></li>
+        <li><div><b>I do the work.</b><span>Work you'll be glad to see for years.</span></div></li>
       </ol>
     </div>
     <form id="quoteForm" class="rise" novalidate>
@@ -352,13 +357,19 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
         <textarea id="what" name="what" maxlength="600" placeholder="Size, what's there now, when you'd like it done…"></textarea>
       </div>
       <button class="btn btn-primary" type="submit"><svg aria-hidden="true"><use href="#i-chat"/></svg>Text this to William</button>
-      <p class="sent" id="sent" role="status" hidden>Didn't open your messages? Call me at <a href="tel:+17046856486">(704) 685-6486</a>.</p>
+      <div class="sent" id="sent" role="status" hidden>
+        <p>Didn't open your messages? Send it from here, or call me at <a href="tel:+17046856486">(704) 685-6486</a>.</p>
+        <a class="btn btn-line" id="openSms" href="sms:+17046856486">Open in Messages</a>
+        <button class="btn btn-line" type="button" id="copyMsg">Copy message</button>
+        <p class="after" id="msgText" hidden></p>
+      </div>
+      <noscript><p class="sent">Call or text me at <a href="tel:+17046856486">(704) 685-6486</a>.</p></noscript>
       <p class="after">Opens your messages with this written out.</p>
     </form>
   </div>
 </section>
 
-<section class="on-navy close" id="close" aria-labelledby="h-close">
+<section class="on-deep close" id="close" aria-labelledby="h-close">
   <div class="wrap">
     <div class="rise">
       <h2 id="h-close">Martinez Construction</h2>
@@ -372,7 +383,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
 <footer>
   <div class="wrap">
-    <span>Martinez Construction · William Martinez · <span class="nw">(704) 685-6486</span></span>
+    <span>© 2026 Martinez Construction</span>
     <nav aria-label="Contact">
       <a href="https://www.facebook.com/profile.php?id=100095738580830" rel="noopener">Facebook</a>
     </nav>
@@ -412,6 +423,8 @@ document.documentElement.classList.add('js');
   var frag=document.createDocumentFragment();split(h,frag);h.textContent='';h.appendChild(frag);
   // once the last letter lands, put the plain heading back so kerning and text selection return
   if(last)last.addEventListener('animationend',function(){h.innerHTML=plain;h.removeAttribute('aria-label')});
+  // hold the letters until Cal Sans is in (at most 400ms) so the font swap doesn't reflow them mid-bounce
+  if(document.fonts&&document.fonts.load){h.classList.add('wait');var go=function(){h.classList.remove('wait')};Promise.race([document.fonts.load('1em "Cal Sans"'),new Promise(function(r){setTimeout(r,400)})]).then(go,go)}
 })();
 
 /* ===== Service rows pre-pick the matching job in the form ===== */
@@ -429,20 +442,29 @@ document.documentElement.classList.add('js');
   var form=document.getElementById('quoteForm');if(!form)return;
   function val(id){return document.getElementById(id).value.trim()}
   function mark(id,bad){var f=document.getElementById(id);f.classList.toggle('bad',bad);f.querySelector('input,textarea').setAttribute('aria-invalid',bad?'true':'false')}
-  form.addEventListener('input',function(e){var f=e.target.closest('.field');if(f&&f.classList.contains('bad')&&e.target.value.trim())f.classList.remove('bad')});
+  form.addEventListener('input',function(e){var f=e.target.closest('.field');if(f&&f.classList.contains('bad')&&e.target.value.trim()){f.classList.remove('bad');e.target.setAttribute('aria-invalid','false')}});
+  var sent=document.getElementById('sent'),msg='';
+  document.getElementById('copyMsg').addEventListener('click',function(){
+    var b=this,t=document.getElementById('msgText');
+    function shown(){t.hidden=false;t.textContent=msg;var r=document.createRange();r.selectNodeContents(t);var sel=getSelection();sel.removeAllRanges();sel.addRange(r)}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(msg).then(function(){b.textContent='Copied'},shown)}else shown();
+  });
   form.addEventListener('submit',function(e){
     e.preventDefault();
     var name=val('name'),where=val('where'),what=val('what'),j=form.querySelector('input[name=job]:checked');
     mark('f-name',!name);mark('f-where',!where);
     if(!name){document.getElementById('name').focus();return}
     if(!where){document.getElementById('where').focus();return}
-    var msg='Hi '+CONFIG.NAME+', this is '+name+'. I\'d like a free estimate';
+    msg='Hi '+CONFIG.NAME+', this is '+name+'. I\'d like a free estimate';
     msg+=j?' for: '+j.value+'.':'.';
     msg+=' Where: '+where+'.';
     if(what)msg+=' '+what;
-    location.href='sms:'+CONFIG.PHONE+'?&body='+encodeURIComponent(msg);
-    // if no messages app opened (desktop, some in-app browsers), say what to do instead
-    setTimeout(function(){document.getElementById('sent').hidden=false},900);
+    var href='sms:'+CONFIG.PHONE+'?&body='+encodeURIComponent(msg);
+    document.getElementById('openSms').href=href;document.getElementById('copyMsg').textContent='Copy message';
+    // computers can't send texts: show the other ways straight away; on phones, only if the messages app didn't open
+    if(matchMedia('(hover:hover) and (pointer:fine)').matches){sent.hidden=false;return}
+    location.href=href;
+    setTimeout(function(){sent.hidden=false},900);
   });
 })();
 
@@ -450,6 +472,8 @@ document.documentElement.classList.add('js');
 (function(){
   var fl=document.getElementById('float');if(!fl)return;
   if(!CONFIG.FLOAT||!('IntersectionObserver' in window)){fl.remove();return}
+  // a computer can't send a text, so there the circle takes you to the estimate form
+  if(matchMedia('(hover:hover) and (pointer:fine)').matches){fl.href='#quoteForm';fl.setAttribute('aria-label','Get a free estimate')}
   var pastHero=false,formIn=false;
   function sync(){var on=pastHero&&!formIn;fl.classList.toggle('on',on);fl.tabIndex=on?0:-1;fl.setAttribute('aria-hidden',on?'false':'true')}
   new IntersectionObserver(function(es){pastHero=!es[0].isIntersecting;sync()},{threshold:.15}).observe(document.getElementById('hero'));
